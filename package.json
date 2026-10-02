@@ -1,0 +1,15 @@
+{
+  "name": "tia-serverless",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "devDependencies": {
+    "serverless": "^3.40.0",
+    "serverless-offline": "^8.8.1"
+  }
+}

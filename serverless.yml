@@ -1,0 +1,67 @@
+service: cupo-vehicular
+
+# usando .env para manejar variables de entorno
+useDotenv: true
+
+configValidationMode: warn
+
+provider:
+  name: aws
+  runtime: python3.9
+  stage: ${opt:stage, 'dev'}
+  environment:
+    DB_HOST: ${env:DB_HOST}
+    DB_PORT: ${env:DB_PORT}
+    DB_NAME: ${env:DB_NAME}
+    DB_USER: ${env:DB_USER}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+
+functions:
+  crearColaborador:
+    handler: app/crear_colaborador.handler
+    events:
+      - httpApi:
+          path: /colaboradores
+          method: post
+
+  actualizarCupo:
+    handler: app/actualizar_cupo.handler
+    events:
+      - httpApi:
+          path: /colaboradores/{cedula}/cupo
+          method: put
+
+  acreditarCupo:
+    handler: app/acreditar_cupo.handler
+    events:
+      - httpApi:
+          path: /colaboradores/{cedula}/acreditaciones
+          method: post
+
+  registrarFactura:
+    handler: app/registrar_factura.handler
+    events:
+      - httpApi:
+          path: /facturas
+          method: post
+
+  sincronizarFacturas:
+    handler: app/sincronizar_facturas.handler
+    events:
+      - httpApi:
+          path: /sincronizaciones/facturas
+          method: post
+
+  sincronizarGasclub:
+    handler: app/sincronizar_gasclub.handler
+    events:
+      - httpApi:
+          path: /sincronizaciones/gasclub
+          method: post
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000
